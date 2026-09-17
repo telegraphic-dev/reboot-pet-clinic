@@ -8,3 +8,11 @@ dev run --python
 dev run --application-name=petclinic-local
 dev expunge --application-name=petclinic-local
 dev run --application=backend/src/main.py
+
+# Single-container production: Reboot keeps durable state on the mounted
+# volume and Caddy proxies it from the public SPA origin.
+serve run --python
+serve run --application=backend/src/main.py
+serve run --application-name=petclinic
+serve run --servers=1
+serve run --tls=external
