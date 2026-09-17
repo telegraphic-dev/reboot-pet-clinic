@@ -1,0 +1,10 @@
+generate api/
+generate --python=backend/api/
+generate --react=web/src/api
+generate --web=web/src/api
+dev run --watch=backend/api/**/*.py
+dev run --watch=backend/src/**/*.py
+dev run --python
+dev run --application-name=petclinic-local
+dev expunge --application-name=petclinic-local
+dev run --application=backend/src/main.py

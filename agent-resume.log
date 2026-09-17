@@ -1,0 +1,23 @@
+Implemented in /home/openclaw/petclinic-reboot.
+
+- Added web/src/App.tsx and web/src/styles.css: owner search/create/edit, pets, visit history, veterinarian directory/add form.
+- Added authenticated-or-internal backend authorization for clinic, owner, pet, and veterinarian operations.
+- Completed five executable BDD scenarios: owner search, pet creation, owner/pet edits, visits, and veterinarians.
+- Fixed the test harness startup path to avoid the Envoy hang while preserving production initialization.
+
+Exact verification results:
+
+  uv run pytest -q
+  5 passed, 3 warnings in 9.81s
+  Exit code: 0
+
+  uv run mypy backend/src tests
+  Success: no issues found in 6 source files
+  Exit code: 0
+
+  cd web && npm run build
+  ✓ 288 modules transformed.
+  ✓ built in 3.33s
+  Exit code: 0
+
+The build emits two non-fatal Rollup comments warnings from zod dependencies. No deploy or publish performed.
