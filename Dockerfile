@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends python3 python3-venv python3-pip nginx curl ca-certificates gettext-base \
-    && python3 -m pip install --no-cache-dir uv \
+    && python3 -m pip install --no-cache-dir --break-system-packages uv \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
