@@ -6,7 +6,7 @@ This repository builds as a single Docker image: Nginx serves the React SPA and 
 
 Production releases are built by GitHub Actions as the ARM64 image
 `ghcr.io/telegraphic-dev/reboot-pet-clinic`. The package-publication event is
-then matched against `.jean-ci/deployments.yml`; Jean CI initiates the Coolify
+then matched against `.jean-ci/coolify.yml`; Jean CI initiates the Coolify
 deployment and records the resulting deployment status.
 
 Configure Coolify as a Docker-image application using that image (tag `latest`),
