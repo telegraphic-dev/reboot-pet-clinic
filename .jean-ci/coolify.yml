@@ -1,4 +1,4 @@
 deployments:
   - package: ghcr.io/telegraphic-dev/reboot-pet-clinic
     environment: production
-    coolify_app: bbwajdubh68hyqewydkall21
+    coolify_app: ubu5vl3xtn7a6foj3bu4mzbo
