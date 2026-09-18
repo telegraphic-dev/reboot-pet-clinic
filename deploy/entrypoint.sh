@@ -6,12 +6,9 @@ mkdir -p /data
 
 envsubst '${PORT}' < /etc/nginx/nginx.conf > /tmp/nginx.conf
 
-rbt serve run \
-  --application=backend/src/main.py \
+env -u PORT -u RBT_STATE_DIRECTORY -u RBT_SERVERS rbt serve run \
   --state-directory=/data \
-  --application-name=petclinic \
-  --port=9991 \
-  --tls=external &
+  --port=9991 &
 backend_pid=$!
 
 nginx -c /tmp/nginx.conf -g 'daemon off;' &
