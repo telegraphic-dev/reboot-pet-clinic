@@ -102,7 +102,7 @@ export default function App() {
   }
 
   const authFailure = [owners.aborted?.message, veterinarians.aborted?.message].some((message) => message?.includes("Unauthenticated") || message?.includes("PermissionDenied"));
-  if (authFailure) return <main><section className="panel"><p className="eyebrow">PetClinic</p><h1>Sign in required</h1><p>Your session is missing or has expired. Sign in to access clinic records.</p><button disabled={signingIn} onClick={() => { setSigningIn(true); void signIn().catch(() => setSigningIn(false)); }}>{signingIn ? "Redirecting…" : "Sign in with Google"}</button></section></main>;
+  if (authFailure) return <main><section className="panel"><p className="eyebrow">PetClinic</p><h1>Sign in required</h1><p>Your session is missing or has expired. Sign in to access clinic records.</p><button disabled={signingIn} onClick={() => { setSigningIn(true); void signIn().catch(() => setSigningIn(false)); }}>{signingIn ? "Redirecting…" : "Sign in with GitHub"}</button></section></main>;
 
   return <main><header><div><p className="eyebrow">PetClinic</p><h1>Practice desk</h1><p>Owners, pets, visits, and the clinical team — one sane screen.</p></div><div className="status">{owners.isLoading || veterinarians.isLoading ? "Syncing…" : "Connected"}</div><button className="secondary" onClick={() => void signOut()}>Sign out</button></header>
     {notice && <p className={`notice ${notice.kind}`}>{notice.text}</p>}
