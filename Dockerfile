@@ -8,6 +8,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN apt-get update \
     && apt-get install -y --no-install-recommends python3 python3-venv python3-pip nginx curl ca-certificates gettext-base \
     && python3 -m pip install --no-cache-dir --break-system-packages uv \
+    && curl --fail --silent --show-error --location https://github.com/envoyproxy/envoy/releases/download/v1.38.4/envoy-1.38.4-linux-aarch_64 --output /usr/local/bin/envoy \
+    && chmod +x /usr/local/bin/envoy \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -17,6 +19,7 @@ RUN uv sync --frozen --no-dev
 
 COPY api ./api
 COPY backend ./backend
+RUN rbt generate
 COPY web/package.json web/package-lock.json ./web/
 RUN cd web && npm ci
 COPY web ./web
