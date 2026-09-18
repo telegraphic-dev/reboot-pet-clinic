@@ -1,0 +1,28 @@
+# Python runtime caches and local environments
+.venv/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+
+# Reboot runtime state and generated Python code
+.rbt/
+backend/api/
+
+# Node dependencies and build output
+web/node_modules/
+web/dist/
+web/*.tsbuildinfo
+
+# Version control, editor state, and local logs
+.git/
+.vscode/
+.idea/
+*.swp
+.DS_Store
+*-resume.log
+*-prep.log
+
+# Local-only configuration
+.env
+web/.env*

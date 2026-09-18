@@ -1,1 +1,0 @@
-{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/api/petclinic/v1/petclinic_pb.ts","./src/api/petclinic/v1/petclinic_rbt_react.ts","./src/api/petclinic/v1/petclinic_rbt_types.ts","./src/api/petclinic/v1/petclinic_rbt_web.ts","./src/api/rbt/v1alpha1/options_pb.ts","./src/api/rbt/v1alpha1/tasks_pb.ts"],"version":"5.9.3"}

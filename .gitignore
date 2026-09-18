@@ -9,3 +9,6 @@ __pycache__/
 .pytest_cache/
 web/node_modules/
 web/dist/
+web/*.tsbuildinfo
+*-resume.log
+*-prep.log
