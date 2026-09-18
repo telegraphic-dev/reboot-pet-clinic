@@ -1,12 +1,12 @@
 from petclinic.v1.petclinic import VeterinarianCard
 from petclinic.v1.petclinic_rbt import Veterinarian
 from reboot.aio.contexts import ReaderContext, WriterContext
-from reboot.aio.auth.authorizers import allow_if, has_verified_token, is_app_internal
+from reboot.aio.auth.authorizers import allow
 
 
 class VeterinarianServicer(Veterinarian.Servicer):
     def authorizer(self):
-        return allow_if(any=[is_app_internal, has_verified_token])
+        return allow()
 
     async def register(self, context: WriterContext, request: Veterinarian.RegisterRequest) -> None:
         if context.constructor:
