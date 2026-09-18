@@ -8,6 +8,12 @@ This repository builds as a single Docker image: Nginx serves the React SPA and 
 2. Attach a persistent storage volume: `/data`.
 3. Expose port `8080` (the image reads Coolify's `PORT`, defaulting to `8080`).
 4. Configure health check path `/healthz`.
-5. Deploy, then verify `/healthz` and the browser UI.
+5. Create a Google OAuth web client with the authorized redirect URI
+   `https://reboot-pet-clinic.telegraphic.app/__/oauth/callback`.
+6. Add its credentials as runtime-only Coolify secrets named
+   `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET`.
+7. Deploy, then verify `/healthz`, the Google sign-in redirect, and the browser UI.
 
-No external database, secrets, or Reboot Cloud account is required.
+No external database or Reboot Cloud account is required. Reboot uses the
+configured Google identity to mint its own short-lived RPC access tokens and
+cookie-backed refresh session.

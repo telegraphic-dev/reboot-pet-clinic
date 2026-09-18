@@ -3,13 +3,13 @@ from uuid import uuid4
 from petclinic.v1.petclinic import OwnerCard, VeterinarianCard
 from petclinic.v1.petclinic_rbt import Clinic, Owner, Veterinarian
 from reboot.aio.contexts import ReaderContext, TransactionContext
-from reboot.aio.auth.authorizers import allow
+from reboot.aio.auth.authorizers import allow_if, has_verified_token, is_app_internal
 from reboot.std.collections.ordered_map.v1.ordered_map import OrderedMap
 
 
 class ClinicServicer(Clinic.Servicer):
     def authorizer(self):
-        return allow()
+        return allow_if(any=[is_app_internal, has_verified_token])
 
     async def create(self, context: TransactionContext) -> None:
         if context.constructor:

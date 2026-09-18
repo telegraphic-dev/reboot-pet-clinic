@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import { useSignIn, useSignOut } from "@reboot-dev/reboot-react";
 import { useClinic, useOwner, usePet } from "./api/petclinic/v1/petclinic_rbt_react";
 
 const clinicId = "petclinic";
@@ -75,6 +76,9 @@ function PetDetails({ petId }: { petId: string }) {
 }
 
 export default function App() {
+  const signIn = useSignIn();
+  const signOut = useSignOut();
+  const [signingIn, setSigningIn] = useState(false);
   const clinic = useClinic({ id: clinicId });
   const [query, setQuery] = useState("");
   const [selectedOwner, setSelectedOwner] = useState<string | null>(null);
@@ -97,7 +101,10 @@ export default function App() {
     if (result.response) { event.currentTarget.reset(); setNotice({ kind: "success", text: "Veterinarian added." }); } else setNotice({ kind: "error", text: messageFrom(result) });
   }
 
-  return <main><header><div><p className="eyebrow">PetClinic</p><h1>Practice desk</h1><p>Owners, pets, visits, and the clinical team — one sane screen.</p></div><div className="status">{owners.isLoading || veterinarians.isLoading ? "Syncing…" : "Connected"}</div></header>
+  const authFailure = [owners.aborted?.message, veterinarians.aborted?.message].some((message) => message?.includes("Unauthenticated") || message?.includes("PermissionDenied"));
+  if (authFailure) return <main><section className="panel"><p className="eyebrow">PetClinic</p><h1>Sign in required</h1><p>Your session is missing or has expired. Sign in to access clinic records.</p><button disabled={signingIn} onClick={() => { setSigningIn(true); void signIn().catch(() => setSigningIn(false)); }}>{signingIn ? "Redirecting…" : "Sign in with Google"}</button></section></main>;
+
+  return <main><header><div><p className="eyebrow">PetClinic</p><h1>Practice desk</h1><p>Owners, pets, visits, and the clinical team — one sane screen.</p></div><div className="status">{owners.isLoading || veterinarians.isLoading ? "Syncing…" : "Connected"}</div><button className="secondary" onClick={() => void signOut()}>Sign out</button></header>
     {notice && <p className={`notice ${notice.kind}`}>{notice.text}</p>}
     <div className="layout"><aside className="sidebar"><section className="panel"><h2>Find owners</h2><input aria-label="Find owners" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search first or last name" />{owners.aborted && <p className="error">{owners.aborted.message}</p>}<div className="owner-list">{owners.response?.owners.map((owner) => <button key={owner.ownerId} className={owner.ownerId === selectedOwner ? "selected" : ""} onClick={() => { setSelectedOwner(owner.ownerId); setSelectedPet(null); }}><strong>{owner.firstName} {owner.lastName}</strong><span>{owner.phone}</span></button>)}</div></section>
       <section className="panel"><h2>New owner</h2><form className="form-grid" onSubmit={createOwner}><label>First name<input name="firstName" required /></label><label>Last name<input name="lastName" required /></label><label>Address<input name="address" required /></label><label>City<input name="city" required /></label><label>Telephone<input name="telephone" required /></label><button>Create owner</button></form></section></aside>
