@@ -1,8 +1,11 @@
 import asyncio
+import os
 
 from clinic_servicer import ClinicServicer
 from owner_servicer import OwnerServicer
 from petclinic.v1.petclinic_rbt import Clinic
+from reboot.aio.auth.oauth import OAuth
+from reboot.aio.auth.oauth_providers import Development, GitHub, OAuthProviderByEnvironment
 from reboot.aio.applications import Application
 from reboot.aio.external import InitializeContext
 from reboot.std.collections.ordered_map.v1.ordered_map import ordered_map_library
@@ -30,6 +33,21 @@ async def main() -> None:
         servicers=[ClinicServicer, OwnerServicer, PetServicer, VeterinarianServicer],
         libraries=[ordered_map_library()],
         initialize=initialize,
+        # `Development` supplies stable fake identities for `rbt dev`; production
+        # always delegates sign-in to GitHub and Reboot signs the resulting
+        # session tokens used by every RPC call.
+        oauth=OAuth(
+            provider=OAuthProviderByEnvironment(
+                dev=Development(claims=["email", "email_verified", "name"]),
+                prod=GitHub(
+                    client_id=os.environ.get("GITHUB_OAUTH_CLIENT_ID"),
+                    client_secret=os.environ.get("GITHUB_OAUTH_CLIENT_SECRET"),
+                    claims=["email", "email_verified"],
+                ),
+            ),
+            allowed_origins=["https://reboot-pet-clinic.telegraphic.app"],
+        ),
+        title="PetClinic",
     ).run()
 
 
